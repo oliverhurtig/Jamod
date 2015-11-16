@@ -1,0 +1,96 @@
+//License
+/***
+ * Java Modbus Library (jamod)
+ * Copyright (c) 2002-2004, jamod development team
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * Neither the name of the author nor the names of its contributors
+ * may be used to endorse or promote products derived from this software
+ * without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS
+ * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ ***/
+package net.wimpi.modbus.procimg;
+
+/**
+ * Class implementing a simple <tt>DigitalIn</tt>.
+ * <p>
+ * The set method is synchronized, which ensures atomic
+ * access, but no specific access order.
+ *
+ * @author Dieter Wimberger
+ * @version 1.1 (08/06/2004)
+ */
+public class SimpleDigitalIn implements DigitalIn {
+
+  private byte m_State = ProcessImageImplementation.DIG_INVALID;
+
+  /**
+   * Constructs a new <tt>SimpleDigitalIn</tt> instance.
+   * It's state will be invalid.
+   */
+  public SimpleDigitalIn() {
+  }//constructor
+
+  /**
+   * Constructs a new <tt>SimpleDigitalIn</tt> instance
+   * with a given valid state.
+   *
+   * @param b true if to be set, false otherwise.
+   */
+  public SimpleDigitalIn(boolean b) {
+    set(b);
+  }//constructor(boolean)
+
+  public boolean isSet() {
+    return m_State > 0;
+  }//isSet
+
+  /**
+   * Sets the state of this <tt>SimpleDigitalIn</tt>.
+   * This method should only be used from master/device
+   * side.
+   *
+   * @param b true if to be set, false otherwise.
+   */
+  public synchronized void set(boolean b) {
+    if (b) {
+      m_State = ProcessImageImplementation.DIG_TRUE;
+    } else {
+      m_State = ProcessImageImplementation.DIG_FALSE;
+    }
+  }//set
+
+  public boolean isValid() {
+    return m_State < 0;
+  }//isValid
+
+  /**
+   * Invalidates the state of this <tt>SimpleDigitalIn</tt>.
+   */
+  public void invalidate() {
+    m_State = ProcessImageImplementation.DIG_INVALID;
+  }//isValid
+
+}//SimpleDigitalIn
