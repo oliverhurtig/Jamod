@@ -33,6 +33,7 @@
  ***/
 package net.wimpi.modbus;
 
+
 /**
  * Interface defining all constants related to the
  * Modbus protocol.
